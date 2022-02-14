@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://47.101.202.96:8080/arboard/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+      * {
+          margin: 0;
+          padding: 0;
+      }
+      html, body {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <!-- <iframe id="bro" src="https://docs.anyrtc.io" frameborder="0"></iframe> -->
+
+    <div id="myPainter" style="width: 100%; height: 100%;"></div>
+    <!-- <div id="myPainter" style="width: 640px; height: 360px; background-color: #efefef;"></div>
+         <canvas id="underPainter" width="640" height="360"></canvas> -->
+
+         <!-- <div style="width: 640px; height: 480px; border: 1px solid"> -->
+           <!-- <canvas id="underPainter" width="1280" height="960"></canvas> -->
+           <!-- </div> -->
+
+         <script type="text/javascript" src="dsbridge.js"></script>
+         <script type="text/javascript" src="ArWhiteBoard@latest.js"></script>
+
+      <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.0/vconsole.min.js"></script>
+<!--         <script>-->
+<!--           // init vConsole-->
+<!--           var vConsole = new VConsole();-->
+<!--           console.log('Hello world');-->
+<!--         </script>-->
+         
+         <script>
+           let board;
+           const getFileInfoFunc = function(fileId) {
+               const fileInfo = board.getFileInfo(fileId);
+               console.log(fileInfo);
+               if (!fileInfo) return;
+               
+               const index = fileInfo.currentPageIndex;
+               const size = fileInfo.totalPageCount;
+               const scale = board.getBoardScale();
+               //const ratio = board.getBoardRatio();
+               const bg = board.getBackgroundColor();
+               const boardArr = board.getBoardList();
+               const fileBoardArr = board.getFileBoardList(fileId);
+               const currentBoardId = board.getCurrentBoardId();
+               dsBridge.call("handler.onSyncInfo", { index: index, size: size, scale: scale, bgColor: bg, boardList: boardArr, fileBoardList: fileBoardArr, currentBoardId: currentBoardId/*, ratio: ratio*/ });
+           };
+           /*const boardErrorFunc = function(errCode) {
+             };
+             const boardWarningFunc = function(warningCode) {
+             };*/
+           const addBoardFunc = function(fileId, boardIds) {
+               //getFileInfoFunc(fileId);
+               dsBridge.call('handler.onAddBoard', { boardIds: boardIds, fileId: fileId });
+           };
+           const deleteBoardFunc = function(fileId, boardIds) {
+               //getFileInfoFunc(fileId);
+               dsBridge.call('handler.onDeleteBoard', { boardIds: boardIds, fileId: fileId });
+           };
+           const gotoBoardFunc = function(fileId, boardId) {
+               getFileInfoFunc(fileId);
+               dsBridge.call('handler.onGotoBoard', { boardId: boardId, fileId: fileId });
+           };
+           const connectionStateFunc = function(state, reason) {
+               dsBridge.call('handler.onConnectionStateChange', { state: state, reason: reason });
+           };
+           const scaleBoardFunc = function(boardId/* string */, scale/* number */) {
+               if (board.getCurrentBoardId() == boardId) dsBridge.call('handler.onScaleChange', { boardId: boardId, scale: scale });
+           };
+           const undoableFunc = function(enable) {
+               dsBridge.call('handler.onUndoStateChange', { enable: enable });
+           };
+           const redoableFunc = function(enable) {
+               dsBridge.call('handler.onRedoStateChange', { enable: enable });
+           };
+           const onBoardError = function(obj) {
+               dsBridge.call('handler.onBoardError', { code: obj.code, message: obj.message });
+           };
+           const onBoardWarning = function(message) {
+               dsBridge.call('handler.onBoardWarning', { code: obj.code, message: obj.message });
+           };
+           const onSyncFunc = function() {
+               dsBridge.call('handler.onBoardPrepared', {});
+               getFileInfoFunc(board.getCurrentFileId());
+           };
+           const onBackgroundColorFunc = function() {
+               getFileInfoFunc(board.getCurrentFileId());
+           };
+           // -- 21/12/28 update --
+           const onBoardReset = function(fileId, boardId) {
+               getFileInfoFunc(fileId);
+               dsBridge.call('handler.onBoardReset', { boardId: boardId, fileId: fileId });
+           };
+           //const onBoardRatioChange(/* TODO: Parameters */) {
+           //};
+           const onBoardClear = function(fileId, boardId) {
+               dsBridge.call('handler.onBoardClear', { fileId: fileId, boardId: boardId });
+           };
+           // -------- libbie --------
+
+           dsBridge.registerAsyn("Board", {
+               tag: "Board",
+               //init: function() {
+               /*board = new ArWhiteBoard({
+                 id: ,
+                 baseParams: { ratio: "4:3"}
+                 });*/
+               /*board = new ArWhiteBoard({
+                 styleParams: {
+                 textColor: 'red',
+                 selectBoxColor: 'blue',
+                 textSize: 80,
+                 brushColor: 'pink',
+                 brushThin: 20
+                 },
+                 //styleParams,
+                 baseParams: {
+                 // ratio: '4:3'
+                 // ratio: '16:9',
+                 // scale: 150
+                 }
+                 });*/
+
+               /*document.querySelector("#penType").onchange = function(ev) {
+                 console.log('ev', ev)
+                 const type = ev.target.value;
+                 board.setBrushType(type);
+                 }
+
+                 document.querySelector("#penWeight").onchange = function(ev) {
+                 console.log('ev', ev)
+                 const width = ev.target.value;
+                 board.setBrushThin(Number(width));
+                 }
+
+                 document.querySelector("#penColor").onchange = function(ev) {
+                 console.log('ev', ev)
+                 const color = ev.target.value;
+                 board.setBrushColor(color);
+                 }
+
+                 document.querySelector("#backgroundColor").onchange = function(ev) {
+                 console.log('ev', ev)
+                 const color = ev.target.value;
+                 board.setBackgroundColor(color);
+                 }*/
+               //return board;
+               //},
+               setParameters: function(ConfPriCloudAddr) {
+                   board.setParameters({
+                       ConfPriCloudAddr/*: {
+                                         ServerAdd: 'pro.wbgw.agrtc.cn',
+                                         Port: 443,
+                                         Wss: true
+                                         // ServerAdd: '139.224.133.209',
+                                         // Wss: false
+                                         // ServerAdd: '192.168.199.195',
+                                         // Port: 13479,
+                                         // Wss: false
+                                         }*/
+                   });
+               },
+               init: function(args) {
+                   board = new ArWhiteBoard({
+                       styleParams: {
+                           textColor: args.textColor,
+                           textSize: args.textSize,
+                           textStyle: args.textStyle,
+                           brushColor: args.brushColor,
+                           brushThin: args.brushThin,
+                           toolType: args.brushType,
+                           selectBoxColor: args.selectBoxColor,
+                           globalBackgroundColor: args.globalBackgroundColor
+                       },
+                       id: 'myPainter',
+                       appId: args.appId,
+                       token: args.token,
+                       channel: args.channelId,
+                       userId: args.uid,
+                       baseParams: {
+                           ratio: args.ratio,
+                           scale: args.scale,
+                           progressBarUrl: args.progressBarUrl
+                       },
+                       authParams: {
+                           drawEnable: args.drawEnable,
+                           progressEnable: args.progressEnable
+                       }
+                   });
+                   board.on('add-board', addBoardFunc);
+                   board.on('delete-board', deleteBoardFunc);
+                     board.on('goto-board', gotoBoardFunc);
+                     board.on('connection-state-change', connectionStateFunc);
+                     board.on('board-scale-change', scaleBoardFunc);
+                     board.on('board-can-undo-status', undoableFunc);
+                     board.on('board-can-redo-status', redoableFunc);
+                     board.on('board-error', onBoardError);
+                     board.on('board-warning', onBoardWarning);
+                   board.on('data-sync-completed', onSyncFunc);
+                   board.on('board-background-color-change', onBackgroundColorFunc);
+                   // -- 21/12/28 update --
+                   //board.on('board-ratio-change', onBoardRatioChange);
+                   board.on('clear-board', onBoardClear);
+                   board.on('reset-board', onBoardReset);
+
+                   /*board.joinChannel('myPainter', {
+                   // appid: '177e21c0d1641291c34e46e1198bd49a',
+                   // uid: '' + Math.ceil(Math.random() * Math.pow(10, 6)),
+                   // uid: '916479',
+                   // channel: '123456789',
+                   appid: appId,
+                   channel: channelId,
+                   uid: uid,
+                   }).then(function() {
+                   // console.log("success");
+                   callback({message: "success", code: "0"});
+                   }).catch(function(obj) {
+                   // NetworkErrorCode obj.code;
+                   // String msg = obj.message;
+                   // console.log(obj);
+                   callback(obj);
+                   });*/
+               },
+                 addBoard: function() {
+                     board.addBoard();
+                 },
+                 deleteBoard: function() {
+                     board.deleteBoard();
+                 },
+                 gotoBoard: function(boardId) {
+                     board.gotoBoard(boardId);
+                 },
+                 nextBoard: function() {
+                     board.nextBoard();
+                 },
+                 preBoard: function() {
+                     board.prevBoard();
+                 },
+                 getCurrentBoard: function(callback) {
+                     callback(board.getCurrentBoardId());
+                 },
+                 getBoardList: function(callback) {
+                     const boardArray = board.getBoardList();
+                     callback({ arr: board.boardList });
+                 },
+                 clear: function(clearBackground) {
+                     board.clear(clearBackground);
+                 },
+                 leaveChannel: function() {
+                     //board.leaveChannel();
+                   board.off('add-board', addBoardFunc);
+                     board.off('delete-board', deleteBoardFunc);
+                     board.off('goto-board', gotoBoardFunc);
+                     board.off('connection-state-change', connectionStateFunc);
+                     board.off('board-scale-change', scaleBoardFunc);
+                     board.off('board-can-undo-status', undoableFunc);
+                     board.off('board-can-redo-status', redoableFunc);
+                     board.off('board-error', onBoardError);
+                     board.off('board-warning', onBoardWarning);
+                   board.off('data-sync-completed', onSyncFunc);
+                   board.off('board-background-color-change', onBackgroundColorFunc);
+                   // -- 21/12/28 update --
+                   //board.off('board-ratio-change', onBoardRatioChange);
+                   board.off('clear-board', onBoardCleared);
+                     board.off('reset-board', onBoardReset);
+
+                   board.destroy();
+                 },
+               setEnable: function(enable) {
+                     board.setEnable(enable);
+                 },
+                 getEnable: function(callback) {
+                     callback(board.getEnable());
+                 },
+                 setBackgroundColor: function(color) {
+                     board.setBackgroundColor(color);
+                 },
+                 getBackgroundColor: function(callback) {
+                     callback(board.getBackgroundColor());
+                 },
+                 setBrushColor: function(color) {
+                     board.setBrushColor(color);
+                 },
+                 getBrushColor: function(callback) {
+                     callback(board.getBrushColor());
+                 },
+                 setBrushThin: function(thin) {
+                     board.setBrushThin(thin);
+                 },
+                 getBrushThin: function(callback) {
+                     callback(board.getBrushThin());
+                 },
+                 setBrushType: function(type) {
+                     board.setBrushType(type);
+                 },
+                 getBrushType: function(callback) {
+                     callback(board.getBrushType());
+                 },
+               /*setBackgroundImage: function(url) {
+                   board.setBackgroundImage(url);
+                 },*/
+                 getBoardSnapshot: function(callback) {
+                     callback(board.getBoardSnapshot());
+                 },
+                 setTextColor: function(color) {
+                     board.setTextColor(color);
+                 },
+                 getTextColor: function(callback) {
+                     callback(board.getTextColor());
+                 },
+                 setTextSize: function(size) {
+                     board.setTextSize(size);
+                 },
+                 getTextSize: function(callback) {
+                     callback(board.getTextSize());
+                 },
+                 setGlobalBackgroundColor: function(color) {
+                     board.setGlobalBackgroundColor(color);
+                 },
+                 getGlobalBackgroundColor: function(callback) {
+                     callback(board.getGlobalBackgroundColor());
+                 },
+               // 当前文件id
+                 getCurrentFileId: function(callback) {
+                     callback(board.getCurrentFileId());
+                 },
+               // 获取白板中指定文件的文件信息
+               getFileInfo: function(callback) {
+                   const fileInfo = board.getFileInfo(fileId);
+                   let fileId = fileInfo.fileId;
+                   let title = fileInfo.title;
+                   let index = fileInfo.currentPageIndex;
+                   let total = fileInfo.totalPageCount;
+                   let idList = fileInfo.boardList;
+
+                   callback({
+                       fileId: fileId,
+                       title: title,
+                       downloadURL: '',
+                       pageIndex: index,
+                       pageCount: total,
+                       boardInfoList: idList
+                   });
+               },
+               // 获取指定文件的白板ID列表
+               getFileBoardList: function(fileId, callback) {
+                   const fileBoardArr = board.getFileBoardList(fileId);
+                   callback({arr: fileBoardArr});
+               },
+                 /*getCurrentBoardScale: function(callback) {
+                   callback(board.currentBoardScale);
+                   },
+                   getTotalPage() {
+                   },*/
+                 undo: function() {
+                     board.undo();
+                 },
+                 redo: function() {
+                     board.redo();
+                 },
+                 resize: function() {
+                     board.resize();
+                 },
+                 getVersion: function(callback) {
+                     callback(board.getVersion());
+                 },
+                 setBoardScale: function(scale) {// 100~300
+                     board.setBoardScale(scale);
+                 },
+                 getBoardScale: function(callback) {
+                     callback(board.getBoardScale());
+                 },
+                 /*setBoardRatio: function(ratio) {// ratio: String
+                   board.setBoardRatio(ratio);
+                   },
+                   getBoardRatio: function(callback) {
+                   callback(board.getBoardRatio());
+                   },*/
+                 // 删除所有白板页和涂鸦
+                 // 如果fileId为#DEFAULT，则仅保留第一页，不保留涂鸦
+                 reset: function() {
+                   board.reset();
+               },
+           });
+
+           // const board = new ArWhiteBoard();
+
+           // board.setParameters({
+           //   ConfPriCloudAddr: {
+           //     ServerAdd: 'pro.wbgw.agrtc.cn',
+           //     Port: 443,
+           //     Wss: true
+           //     // ServerAdd: '139.224.133.209',
+           //     // Port: 13479,
+           //     // Wss: false
+           //     // ServerAdd: '192.168.199.195',
+           //     // Port: 13479,
+           //     // Wss: false
+           //   }
+           // });
+
+           // _showPagination();
+
+           // board.on('SYNC_DATA', (data) => {
+           //   console.log('BoardEvent.SYNC_DATA ', data)
+           // });
+
+           // board.on('ON_GOTO_BOARD', (fileId, boardId) => {
+           //   console.log('BoardEvent.SYNC_DATA ', fileId, boardId);
+           //   // const fileInfo = board.getFileInfo(fileId);
+           //   // currenPage.innerText = fileInfo.currentPage;
+           //   // totalPage.innerText = fileInfo.totalPage;
+           //   // scale.innerText = fileInfo.currentBoardScale;
+           //   _showPagination();
+           // });
+
+
+           // board.on('ON_RESET_BOARD', (fileId) => {
+           //   console.log('BoardEvent.ON_RESET_BOARD ', fileId);
+           //   // const fileInfo = board.getFileInfo(fileId);
+           //   // currenPage.innerText = fileInfo.currentPage;
+           //   // totalPage.innerText = fileInfo.totalPage;
+           //   // scale.innerText = fileInfo.currentBoardScale;
+           //   _showPagination();
+           // });
+
+           // function _showPagination() {
+           //   currenPage.innerText = board.currentPage;
+           //   totalPage.innerText = board.totalPage;
+           //   currentScaleBoard.innerText = board.currentBoardScale;
+           // }
+
+           // function addPage() {
+           //   board.addBoard();
+           //   _showPagination();
+           // }
+
+           // function deletePage() {
+           //   board.deleteBoard();
+           //   _showPagination();
+           // }
+
+           // function prevPage() {
+           //   board.prevBoard();
+           //   _showPagination();
+           // }
+
+           // function nextPage() {
+           //   board.nextBoard();
+           //   _showPagination();
+           // }
+
+           // function undo() {
+           //   board.undo();
+           // }
+
+           // function redo() {
+           //   board.redo();
+           // }
+
+           // function decrease () {
+           //   let scaleVal = board.currentBoardScale;
+           //   if (scaleVal - 10 > 90) {
+           //     scaleVal -= 10;
+           //     board.setBoardScale(scaleVal);
+           //     scale.innerText = board.currentBoardScale;
+           //   }
+           // }
+
+           // function increase () {
+           //   let scaleVal = board.currentBoardScale;
+           //   if (scaleVal + 10 > 100) {
+           //     scaleVal += 10;
+           //     board.setBoardScale(scaleVal);
+           //     scale.innerText = board.currentBoardScale;
+           //   }
+           // }
+
+           // function clearPainter() {
+           //   board.clear();
+           // }
+
+           function clearBackground() {
+               board.clear(true);
+           }
+
+           // function reset() {
+           //   board.reset();
+           // }
+
+           // document.querySelector("#penType").onchange = function(ev) {
+           //   console.log('ev', ev)
+           //   const type = ev.target.value;
+           //   board.setBrushType(type);
+           // }
+
+           // document.querySelector("#penWeight").onchange = function(ev) {
+           //   console.log('ev', ev)
+           //   const width = ev.target.value;
+           //   board.setBrushThin(Number(width));
+           // }
+
+           // document.querySelector("#penColor").onchange = function(ev) {
+           //   console.log('ev', ev)
+           //   const color = ev.target.value;
+           //   board.setBrushColor(color);
+           // }
+
+           // document.querySelector("#backgroundColor").onchange = function(ev) {
+           //   console.log('ev', ev)
+           //   const color = ev.target.value;
+           //   board.setBackgroundColor(color);
+           // }
+
+           // window.onresize = function() {
+           //   board.resize();
+           // }
+
+           // console.log(painter);
+
+
+
+
+         </script>
+
+  
+
+</body></html>

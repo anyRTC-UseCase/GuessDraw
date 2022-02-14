@@ -1,0 +1,15 @@
+platform :ios,'9.0'
+use_frameworks!
+
+target 'ARDrawDemo' do
+  pod "SnapKit"
+  pod 'AttributedString'
+  pod 'SVProgressHUD'
+  pod "Popover"
+  pod "dsBridge"
+  #anyRTC 音视频库
+  pod 'ARtcKit_iOS'
+  #anyRTC 实时消息库
+  pod 'ARtmKit_iOS'
+
+end
