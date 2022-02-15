@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginEnd="15dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/msg_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:id="@+id/chat_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="14dp"
+            android:textSize="12sp"
+            tools:text="8 月 5 日，自动驾驶芯片企业地平线与国内激光雷达龙头禾赛科技达成战略合作，双方将基于征程 5 芯片和最新固态激光雷达展开联合开发与适配，为面向 L4 和 L5 级别的自动驾驶提供完整解决方案。" />
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

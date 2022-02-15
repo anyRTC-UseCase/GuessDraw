@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDEDED"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/room_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="11dp"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ID:12213123" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/exit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/exit"
+            app:layout_constraintBottom_toBottomOf="@id/room_id"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/room_id" />
+
+        <TextView
+            android:id="@+id/total_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="#B0B0B0"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/room_id"
+            app:layout_constraintTop_toBottomOf="@id/room_id"
+            tools:text="在线：5" />
+
+        <TextView
+            android:id="@+id/who_drawing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textColor="#59BE6C"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/total_online"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/total_online"
+            tools:text="123开始作画" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/outer_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_online">
+
+            <FrameLayout
+                android:id="@+id/board_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/start_draw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_join_enable"
+                android:paddingStart="20dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="12dp"
+                android:text="@string/startDraw"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/draw_tools_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#fcfcfc"
+                app:cardCornerRadius="8dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/tool_parents"
+                    android:layout_width="176dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/shape_tool_bg"
+                    android:gravity="center_vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/pen"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/selector_pencil"
+                        android:button="@null" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:background="#DDDDDD" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/color_picker"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/selector_color"
+                        android:button="@null" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:background="#DDDDDD" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/undo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/undo" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:background="#DDDDDD" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/clear"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/clear"
+                        android:button="@null" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/save_screenshot_bg"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#fcfcfc"
+                app:cardCornerRadius="8dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/save_screenshot"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/save_screen" />
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fadingEdgeLength="26dp"
+            android:requiresFadingEdge="vertical"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/outer_card" />
+
+        <View
+            android:id="@+id/bottom_bg"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/voice"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/selector_voice"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_bg"
+            app:layout_constraintLeft_toLeftOf="@id/bottom_bg"
+            app:layout_constraintTop_toTopOf="@id/bottom_bg" />
+
+        <View
+            android:id="@+id/spit_line"
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="9dp"
+            android:background="#CCCCCC"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_bg"
+            app:layout_constraintLeft_toRightOf="@id/voice"
+            app:layout_constraintTop_toTopOf="@id/bottom_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chat"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="9dp"
+            android:src="@drawable/chat"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_bg"
+            app:layout_constraintLeft_toRightOf="@id/spit_line"
+            app:layout_constraintTop_toTopOf="@id/bottom_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/quit_draw"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/quit_draw"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_bg"
+            app:layout_constraintRight_toRightOf="@id/bottom_bg"
+            app:layout_constraintTop_toTopOf="@id/bottom_bg" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/behavior_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:visibility="gone" />
+
+    <io.anyrtc.drawsomething.widgets.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tools_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_tools_menu_bg"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <TextView
+            android:id="@+id/tools_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="12dp"
+            android:text="@string/cancel"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tools_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="12dp"
+            android:text="@string/confirm"
+            android:textColor="#59BE6C"
+            android:textSize="14sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--<TextView
+            android:id="@+id/tools_title_tool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="15dp"
+            android:text="@string/tools"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tools_confirm" /> -->
+
+        <io.anyrtc.drawsomething.widgets.RoundBackgroundView
+            android:id="@+id/current_color"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/tools_cancel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tools_cancel"
+            app:round_background_color="@color/purple_500"
+            app:round_border_color="@color/black"
+            app:round_border_padding="2dp"
+            app:round_border_width="1dp"
+            app:round_radius="12dp" />
+
+        <TextView
+            android:id="@+id/seek_title_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/red"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tools_cancel" />
+
+        <io.anyrtc.drawsomething.widgets.SeekBarWidget
+            android:id="@+id/seek_red"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/seek_title_red"
+            app:layout_constraintLeft_toRightOf="@id/seek_title_red"
+            app:layout_constraintRight_toLeftOf="@id/red_seek_num"
+            app:layout_constraintTop_toTopOf="@id/seek_title_red"
+            app:seek_circleRadius="3dp"
+            app:seek_circleStrokeWidth="2dp"
+            app:seek_lineHeight="2dp"
+            app:seek_maxColor="#FF0000"
+            app:seek_maxProgress="255"
+            app:seek_progress="175"
+            app:seek_startColor="@color/black" />
+
+        <TextView
+            android:id="@+id/red_seek_num"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="175"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/seek_title_red"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/seek_title_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/green"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seek_title_red" />
+
+        <io.anyrtc.drawsomething.widgets.SeekBarWidget
+            android:id="@+id/seek_green"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/seek_title_green"
+            app:layout_constraintLeft_toRightOf="@id/seek_title_green"
+            app:layout_constraintRight_toLeftOf="@id/green_seek_num"
+            app:layout_constraintTop_toTopOf="@id/seek_title_green"
+            app:seek_circleRadius="3dp"
+            app:seek_circleStrokeWidth="2dp"
+            app:seek_lineHeight="2dp"
+            app:seek_maxColor="#00FF00"
+            app:seek_maxProgress="255"
+            app:seek_progress="175"
+            app:seek_startColor="@color/black" />
+
+        <TextView
+            android:id="@+id/green_seek_num"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="175"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/seek_title_green"
+            tools:ignore="HardcodedText,TooManyViews" />
+
+        <TextView
+            android:id="@+id/seek_title_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/blue"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seek_title_green"
+            tools:ignore="TooManyViews" />
+
+        <io.anyrtc.drawsomething.widgets.SeekBarWidget
+            android:id="@+id/seek_blue"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/seek_title_blue"
+            app:layout_constraintLeft_toRightOf="@id/seek_title_blue"
+            app:layout_constraintRight_toLeftOf="@id/blue_seek_num"
+            app:layout_constraintTop_toTopOf="@id/seek_title_blue"
+            app:seek_circleRadius="3dp"
+            app:seek_circleStrokeWidth="2dp"
+            app:seek_lineHeight="2dp"
+            app:seek_maxColor="#0000FF"
+            app:seek_maxProgress="255"
+            app:seek_progress="175"
+            app:seek_startColor="@color/black" />
+
+        <TextView
+            android:id="@+id/blue_seek_num"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="175"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/seek_title_blue"
+            tools:ignore="HardcodedText" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/rgb_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="current_color,seek_title_red,seek_red,red_seek_num,seek_title_green,seek_green,green_seek_num,seek_title_blue,seek_blue,blue_seek_num" />
+
+        <TextView
+            android:id="@+id/pen_thin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/penThin"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tools_cancel"
+            tools:ignore="TooManyViews" />
+
+        <io.anyrtc.drawsomething.widgets.SeekBarWidget
+            android:id="@+id/seek_pen"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/pen_thin_title"
+            app:layout_constraintLeft_toRightOf="@id/pen_thin_title"
+            app:layout_constraintRight_toLeftOf="@id/pen_thin_num"
+            app:layout_constraintTop_toTopOf="@id/pen_thin_title"
+            app:seek_circleRadius="3dp"
+            app:seek_circleStrokeColor="#ABABAB"
+            app:seek_circleStrokeWidth="2dp"
+            app:seek_lineHeight="2dp"
+            app:seek_maxColor="#C6C6C6"
+            app:seek_maxProgress="10"
+            app:seek_minProgress="1"
+            app:seek_progress="2" />
+
+        <TextView
+            android:id="@+id/pen_thin_num"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="2"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/seek_title_blue"
+            tools:ignore="HardcodedText" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/brush_thin_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="pen_thin_title,seek_pen,pen_thin_num" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

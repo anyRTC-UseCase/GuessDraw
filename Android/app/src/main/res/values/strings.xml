@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">你画我猜</string>
+    <string name="typeRoomId">输入房间ID</string>
+    <string name="joinRoom">加入房间</string>
+    <string name="startDraw">开始画</string>
+    <string name="send">发送</string>
+    <string name="saySomething">请输入聊天消息</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="red">红</string>
+    <string name="green">绿</string>
+    <string name="blue">蓝</string>
+    <string name="penThin">画笔粗细</string>
+</resources>

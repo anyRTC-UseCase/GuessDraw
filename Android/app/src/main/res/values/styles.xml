@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundBackgroundView">
+        <attr name="round_background_color" format="color" />
+        <attr name="round_radius" format="dimension" />
+        <attr name="round_border_color" format="color" />
+        <attr name="round_border_width" format="dimension" />
+        <attr name="round_border_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SeekBarWidget">
+        <attr name="seek_maxProgress" format="integer" />
+        <attr name="seek_minProgress" format="integer" />
+        <attr name="seek_progress" format="integer" />
+        <attr name="seek_circleRadius" format="dimension" />
+        <attr name="seek_circleStrokeWidth" format="dimension" />
+        <attr name="seek_lineHeight" format="dimension" />
+        <attr name="seek_backgroundColor" format="color" />
+        <attr name="seek_circleStrokeColor" format="color" />
+        <attr name="seek_maxColor" format="color" />
+        <attr name="seek_startColor" format="color" />
+    </declare-styleable>
+</resources>
