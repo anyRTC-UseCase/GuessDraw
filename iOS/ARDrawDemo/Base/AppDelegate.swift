@@ -7,6 +7,7 @@
 
 import UIKit
 import SVProgressHUD
+import Bugly
 
 @main
 
@@ -20,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setShouldTintImages(false)
         SVProgressHUD.setMinimumSize(CGSize.init(width: 120, height: 120))
+        // Bugly
+        Bugly.start(withAppId: "96cc948712")
         
         return true
     }

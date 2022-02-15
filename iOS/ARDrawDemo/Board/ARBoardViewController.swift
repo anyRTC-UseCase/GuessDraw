@@ -421,10 +421,10 @@ class ARBoardViewController: ARKeyboardInputViewController {
     // MARK: - 私有方法
     @objc private func saveImage(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
            if error != nil{
-               SVProgressHUD.showError(withStatus: "保持失败")
+               SVProgressHUD.showError(withStatus: "保存失败")
                SVProgressHUD.dismiss(withDelay: 1, completion: nil)
            }else{
-               SVProgressHUD.show(withStatus: "保持成功")
+               SVProgressHUD.show(withStatus: "保存成功")
                SVProgressHUD.dismiss(withDelay: 1, completion: nil)
            }
     }

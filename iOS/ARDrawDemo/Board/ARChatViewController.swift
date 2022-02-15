@@ -212,6 +212,8 @@ extension ARChatViewController :ARtmDelegate,ARtmChannelDelegate{
         if state == .connected {
             self.connected = true
             SVProgressHUD.dismiss()
+            // 重连成功获取下状态
+            self.getChannelAttributes()
         }else{
             self.connected = false
             SVProgressHUD.show(UIImage(named: "icon-76")!, status: "加载中")

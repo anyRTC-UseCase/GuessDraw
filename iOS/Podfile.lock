@@ -2,6 +2,7 @@ PODS:
   - ARtcKit_iOS (4.2.2.7)
   - ARtmKit_iOS (1.0.1.7)
   - AttributedString (2.2.2)
+  - Bugly (2.5.91)
   - dsBridge (3.0.6)
   - Popover (1.3.0)
   - SnapKit (4.2.0)
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - ARtcKit_iOS
   - ARtmKit_iOS
   - AttributedString
+  - Bugly
   - dsBridge
   - Popover
   - SnapKit
@@ -21,6 +23,7 @@ SPEC REPOS:
     - ARtcKit_iOS
     - ARtmKit_iOS
     - AttributedString
+    - Bugly
     - dsBridge
     - Popover
     - SnapKit
@@ -30,11 +33,12 @@ SPEC CHECKSUMS:
   ARtcKit_iOS: 91ab85d3ef74ae172382c242c311a6fe21e4a2c5
   ARtmKit_iOS: 72b4fb675617fa86142dcb5e93f9a214f006af55
   AttributedString: 320bb12ef89a666cee4a2f79e3cee36748a63145
+  Bugly: afe841bba2ea6de6d432a3c125240a5e75949c55
   dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
   Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 1407a85ccf7267bda531563c2872759e602c4b16
+PODFILE CHECKSUM: 433c8cb2f5b11be85952507bf130f5b1b1d77b98
 
 COCOAPODS: 1.11.2

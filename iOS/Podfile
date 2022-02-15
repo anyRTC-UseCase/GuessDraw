@@ -11,5 +11,6 @@ target 'ARDrawDemo' do
   pod 'ARtcKit_iOS'
   #anyRTC 实时消息库
   pod 'ARtmKit_iOS'
+  pod 'Bugly'
 
 end
